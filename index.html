@@ -113,6 +113,749 @@
   }
   .envelope-open .flap{ transform: rotateX(180deg); }
 
+  /* ---------- Music widget ---------- */
+  .music-widget{
+    position:absolute; left:14px; bottom:14px; z-index:30;
+    display:flex; align-items:center; gap:8px;
+    background: rgba(255,255,255,0.85); backdrop-filter: blur(6px);
+    border-radius: 999px; padding:6px 14px 6px 6px;
+    box-shadow: var(--shadow);
+    opacity:0; transform:translateY(10px);
+    pointer-events:none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .music-widget.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .mute-btn{
+    width:30px; height:30px; border-radius:50%; border:none; cursor:pointer;
+    background: linear-gradient(135deg, var(--pink-deep), var(--purple-deep));
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .mute-btn svg{ width:15px; height:15px; }
+  .music-info{ display:flex; flex-direction:column; text-align:left; line-height:1.25; }
+  .music-info .song-name{ font-size:12.5px; font-weight:700; color:#a267c9; }
+  .music-info .song-artist{ font-size:10.5px; color:var(--ink-soft); }
+
+  .lyric-float{
+    position:absolute; left:50%; bottom:58px; transform:translateX(-50%);
+    z-index:29; width:86%; text-align:center;
+    font-size:12.5px; font-weight:300; font-style:italic; color:var(--ink-soft);
+    opacity:0; transition:opacity 1s ease; pointer-events:none;
+  }
+  .lyric-float.show{ opacity:0.8; }
+
+  /* ---------- Passcode Screen ---------- */
+  .card{
+    width:100%; max-width:380px;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(6px);
+    border-radius: 28px;
+    padding: 32px 22px;
+    box-shadow: var(--shadow);
+    border: 3px solid #ffffffaa;
+  }
+  #passcodeScreen h2{ font-size:22px; margin-bottom:6px; color:#a267c9;}
+  #passcodeScreen .hint{ font-size:14px; color: var(--ink-soft); margin-bottom:22px; }
+  .code-boxes{ display:flex; gap:6px; justify-content:center; margin-bottom:18px; flex-wrap:nowrap;}
+  .code-box{
+    width:40px; height:50px; min-width:0; border-radius:12px; border:none;
+    text-align:center; font-size:20px; font-weight:700;
+    background: #fff; color: var(--ink);
+    box-shadow: inset 0 0 0 2px var(--purple-deep);
+    outline: none;
+    transition: all 0.25s;
+  }
+  .code-box:focus{ box-shadow: inset 0 0 0 2px var(--purple-deep); }
+  @media (max-width: 380px){
+    .code-boxes{ gap:4px; }
+    .code-box{ width:32px; height:44px; font-size:17px; border-radius:9px; }
+  }
+  .code-box:nth-child(1),.code-box:nth-child(2){ box-shadow: inset 0 0 0 2px var(--pink-deep); }
+  .code-box:nth-child(3),.code-box:nth-child(4){ box-shadow: inset 0 0 0 2px var(--purple-deep); }
+  .code-box:nth-child(5),.code-box:nth-child(6){ box-shadow: inset 0 0 0 2px var(--blue-deep); }
+  .code-box.correct{ box-shadow: inset 0 0 0 3px var(--green-ok); color: var(--green-ok); background:#eafff0;}
+  .code-box.wrong{ box-shadow: inset 0 0 0 3px var(--red-no); color: var(--red-no); background:#fff0f3; animation: shake 0.4s; }
+  @keyframes shake{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
+  .separator{ align-self:center; font-size:20px; color:var(--ink-soft); margin: 0 1px; }
+
+  .cat-runner{
+    position:relative; height:56px; margin-top:6px;
+  }
+  .cat-msg{
+    position:absolute; bottom:0; left:-120px;
+    display:flex; align-items:center; gap:6px;
+    white-space:nowrap;
+    animation: catRun 1.8s ease-out forwards;
+  }
+  .cat-msg .emoji{ font-size:30px; }
+  .cat-msg .bubble{
+    background:#fff; border-radius: 16px; padding:6px 12px;
+    font-size:13px; box-shadow: var(--shadow); color: var(--ink);
+    border: 2px solid var(--pink-deep);
+  }
+  @keyframes catRun{
+    0%{ left:-120px; opacity:0; }
+    15%{ opacity:1; }
+    80%{ left:50%; transform:translateX(-50%); opacity:1;}
+    100%{ left:120%; opacity:0; }
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    border:none; border-radius: 20px; padding: 12px 26px;
+    background: linear-gradient(135deg, var(--pink-deep), var(--purple-deep));
+    color:#fff; font-size:15px; font-weight:600; cursor:pointer;
+    box-shadow: 0 8px 18px rgba(200,140,200,0.35);
+    transition: transform 0.15s ease;
+  }
+  .btn:active{ transform: scale(0.95); }
+  .btn.secondary{
+    background: #fff; color: var(--ink); box-shadow: inset 0 0 0 2px var(--purple-deep);
+  }
+
+  /* ---------- Chat Screen ---------- */
+  #chatScreen{ justify-content:flex-start; padding-top: 18px; }
+  .chat-header{
+    display:flex; align-items:center; gap:10px; width:100%; max-width:400px;
+    background: rgba(255,255,255,0.7); border-radius:20px; padding:10px 16px;
+    box-shadow: var(--shadow); margin-bottom:14px;
+  }
+  .chat-header img{
+    width:44px; height:44px; border-radius:50%; object-fit:cover;
+    box-shadow: 0 0 0 3px var(--pink-deep);
+  }
+  .chat-header .name{ font-weight:700; font-size:16px; color:#a267c9; text-align:left;}
+  .chat-header .status{ font-size:11px; color:var(--ink-soft); text-align:left;}
+
+  .chat-body{
+    flex:1; width:100%; max-width:400px; overflow-y:auto;
+    display:flex; flex-direction:column; gap:10px; padding: 6px 4px 14px;
+  }
+  .chat-body::-webkit-scrollbar{ width:0; }
+  .msg-row{ display:flex; width:100%; opacity:0; animation: bubbleIn 0.45s ease forwards; }
+  @keyframes bubbleIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+  .msg-row.left{ justify-content:flex-start; }
+  .msg-row.right{ justify-content:flex-end; }
+  .bubble-msg{
+    max-width: 78%; padding: 10px 15px; border-radius: 18px; font-size:14.5px; line-height:1.5;
+    box-shadow: 0 4px 10px rgba(180,140,180,0.15);
+  }
+  .msg-row.left .bubble-msg{
+    background:#fff; color:var(--ink); border-bottom-left-radius:4px;
+  }
+  .msg-row.right .bubble-msg{
+    background: linear-gradient(135deg, var(--pink-deep), var(--purple-deep)); color:#fff;
+    border-bottom-right-radius:4px;
+  }
+  .pink-bar{
+    background: var(--pink-deep); color:#fff; padding:8px 16px; border-radius:14px;
+    font-size:14px; font-weight:600; align-self:flex-start;
+  }
+  .choice-list{ display:flex; flex-direction:column; gap:8px; width:100%; max-width:400px; margin-top:8px;}
+  .choice-btn{
+    background:#fff; border: 2px solid var(--purple-deep); border-radius:16px;
+    padding:10px 16px; font-size:14px; text-align:left; cursor:pointer; color:var(--ink);
+    transition: all 0.15s;
+  }
+  .choice-btn:active{ background: var(--purple); transform: scale(0.98); }
+
+  /* ---------- Questionnaire Screen ---------- */
+  #formScreen .card{ text-align:left; }
+  #formScreen .progress{
+    text-align:center; font-size:13px; color: var(--ink-soft); margin-bottom:10px; font-weight:600;
+  }
+  #formScreen .q-text{ font-size:17px; text-align:center; margin-bottom:16px; color:#a267c9; font-weight:600;}
+  #formScreen textarea{
+    width:100%; min-height:90px; border-radius:14px; border:2px solid var(--purple-deep);
+    padding:12px; font-size:14.5px; font-family:inherit; resize:none; outline:none; color:var(--ink);
+  }
+  #formScreen .btn{ width:100%; margin-top:14px; }
+
+  /* ---------- Bouquet Screen ---------- */
+  #bouquetScreen{ padding-top:14px; }
+  #bouquetScreen .title-bq{ font-size:20px; color:#a267c9; margin-bottom:4px; }
+  #bouquetScreen .sub-bq{ font-size:13.5px; color:var(--ink-soft); max-width:340px; margin-bottom:14px; line-height:1.6;}
+  .bouquet-frame{
+    position:relative; width: 300px; max-width:80vw;
+  }
+  .bouquet-frame img{ width:100%; display:block; filter: drop-shadow(0 12px 20px rgba(180,140,180,0.3)); }
+  .hotspot{
+    position:absolute; width:34px; height:34px; border-radius:50%;
+    background: rgba(255,255,255,0.55); border:2px solid #fff;
+    box-shadow: 0 0 0 4px rgba(255,158,199,0.35);
+    transform: translate(-50%,-50%);
+    cursor:pointer; animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{ box-shadow:0 0 0 4px rgba(255,158,199,0.35);} 50%{ box-shadow:0 0 0 8px rgba(255,158,199,0.15);} }
+
+  /* ---------- Flower Modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background: rgba(107,90,107,0.45); z-index:50;
+    display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-overlay.show{ display:flex; }
+  .flower-modal{
+    position:relative; width:100%; max-width:380px; background:#fff;
+    border-radius: 26px; padding: 26px 22px 22px; box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    text-align:left; animation: modalPop 0.35s cubic-bezier(.2,1.4,.4,1) both;
+    max-height:80vh; overflow-y:auto;
+  }
+  @keyframes modalPop{ from{ transform:scale(0.7); opacity:0;} to{ transform:scale(1); opacity:1;} }
+  .flower-modal .exit-btn{
+    position:absolute; top:14px; right:14px; background: var(--pink); border:none;
+    border-radius: 14px; padding:6px 12px; font-size:12px; font-weight:700; color:#a2456f; cursor:pointer;
+  }
+  .flower-modal h3{ color:#a267c9; font-size:19px; margin-bottom:12px; padding-right:60px;}
+  .flower-modal p{ font-size:14px; line-height:1.75; color:var(--ink); margin:0; }
+  .flower-emoji-badge{ font-size:34px; margin-bottom:8px; display:block; }
+
+  .progress-dots{ display:flex; gap:6px; justify-content:center; margin-top:18px;}
+  .progress-dots span{ width:7px; height:7px; border-radius:50%; background: var(--purple-deep); opacity:0.3;}
+  .progress-dots span.done{ opacity:1; }
+
+  @media (max-height: 680px){
+    .envelope-wrap{ transform: scale(0.85); }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="bg-wallpaper"></div>
+  <div class="falling-layer" id="fallingLayer"></div>
+
+  <!-- Music widget: ขึ้นตอนกดเปิดจดหมายครั้งแรก -->
+  <div class="music-widget" id="musicWidget">
+    <button class="mute-btn" id="muteBtn" aria-label="เปิด/ปิดเสียง" title="เปิด/ปิดเสียง">
+      <svg id="muteIconOn" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M11 5 6 9H3v6h3l5 4V5Z"></path>
+        <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+      </svg>
+      <svg id="muteIconOff" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <path d="M11 5 6 9H3v6h3l5 4V5Z"></path>
+        <path d="m21 9-6 6"></path>
+        <path d="m15 9 6 6"></path>
+      </svg>
+    </button>
+    <div class="music-info">
+      <span class="song-name">Lucky</span>
+      <span class="song-artist">dept</span>
+    </div>
+  </div>
+
+  <!--
+    จุดใส่เนื้อเพลงของคุณเอง (ไม่ใส่เนื้อเพลงจริงให้เพราะติดลิขสิทธิ์เพลง)
+    แก้ข้อความข้างในสแปน id="lyricFloat" เป็นท่อนที่อยากโชว์ได้เลย
+  -->
+  <div class="lyric-float" id="lyricFloat">— เพลงที่อยากให้ฟังตอนเปิดจดหมายนี้ —</div>
+
+  <audio id="bgMusic" src="lucky.mp3" loop preload="auto"></audio>
+
+  <!-- 1. ENVELOPE SCREEN -->
+  <section class="screen active" id="envelopeScreen">
+    <div class="envelope-wrap" id="envelopeWrap">
+      <img src="https://i.ibb.co/99dcxPfH/bck.png" data-closed-src="https://i.ibb.co/99dcxPfH/bck.png" data-opened-src="https://i.ibb.co/FkqZmWk4/removebg-preview.png" class="envelope-img" id="envelopeImg" alt="ซองจดหมาย">
+      <div class="letter-paper" id="letterPaper"></div>
+    </div>
+    <div class="hint-text" id="envelopeHint">แตะที่ซองจดหมายเรยย</div>
+  </section>
+
+  <!-- 2. PASSCODE SCREEN -->
+  <section class="screen" id="passcodeScreen">
+    <div class="card">
+      <h2>ENTER</h2>
+      <div class="hint">HINT พี่รู้เรมีรู้มั้ยนะ (DDMMYY)</div>
+      <div class="code-boxes" id="codeBoxes">
+        <input class="code-box" maxlength="1" inputmode="numeric" data-i="0">
+        <input class="code-box" maxlength="1" inputmode="numeric" data-i="1">
+        <input class="code-box" maxlength="1" inputmode="numeric" data-i="2">
+        <input class="code-box" maxlength="1" inputmode="numeric" data-i="3">
+        <input class="code-box" maxlength="1" inputmode="numeric" data-i="4">
+        <input class="code-box" maxlength="1" inputmode="numeric" data-i="5">
+      </div>
+      <div class="cat-runner" id="catRunner"></div>
+    </div>
+  </section>
+
+  <!-- 3. CHAT SCREEN -->
+  <section class="screen" id="chatScreen">
+    <div class="chat-header">
+      <img src="https://i.ibb.co/zWLmJ32v/IMG-9054.jpg" alt="เรมี">
+      <div>
+        <div class="name">เรมี</div>
+        <div class="status">กำลังพิมพ์...</div>
+      </div>
+    </div>
+    <div class="chat-body" id="chatBody"></div>
+  </section>
+
+  <!-- 4. QUESTIONNAIRE SCREEN -->
+  <section class="screen" id="formScreen">
+    <div class="card">
+      <div class="progress" id="formProgress">1/3</div>
+      <div class="q-text" id="formQuestion">พี่ปลื้มชอบอะไรในตัวเรมี</div>
+      <textarea id="formAnswer" placeholder="พิมพ์คำตอบตรงนี้เลยย..."></textarea>
+      <button class="btn" id="formSubmitBtn">ตอบแล้วครับบ</button>
+    </div>
+  </section>
+
+  <!-- 5. THANK YOU (part of form flow) -->
+  <section class="screen" id="thankyouScreen">
+    <div class="card fade-in">
+      <div class="flower-emoji-badge">💭</div>
+      <h2 style="color:#a267c9; margin-bottom:10px;">เราขอบคุณพี่มากเลย ๆ นะ</h2>
+      <p style="font-size:15px; line-height:1.7; color:var(--ink);">พี่ปลื้มของเรมีเก่งที่สุดในโลกเลย !</p>
+      <button class="btn" id="toBouquetBtn" style="margin-top:18px;">ไปต่อ </button>
+    </div>
+  </section>
+
+  <!-- 6. BOUQUET SCREEN -->
+  <section class="screen" id="bouquetScreen">
+    <div class="title-bq">P' PLUEM'S BOUQUET 💐</div>
+    <div class="sub-bq">พี่ปลื้มจำดอกไม้ดอกนี้ที่เราให้ได้ไหม ลองกดเข้าดอกแต่ละดอกสิ มีความหมายของมันอยู่นะ</div>
+    <div class="bouquet-frame" id="bouquetFrame">
+      <img src="https://i.ibb.co/8LN7NNyP/flowe.png" alt="ช่อดอกไม้">
+      <!-- hotspots injected by JS -->
+    </div>
+  </section>
+
+  <!-- Flower Modal -->
+  <div class="modal-overlay" id="flowerModalOverlay">
+    <div class="flower-modal">
+      <button class="exit-btn" id="modalExitBtn">EXIT ✕</button>
+      <span class="flower-emoji-badge" id="modalEmoji">🌸</span>
+      <h3 id="modalTitle">ชื่อดอกไม้</h3>
+      <p id="modalDesc">คำอธิบาย</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const bgImg = "https://i.ibb.co/FqJKbFQd/bck.jpg";
+  document.querySelector('.bg-wallpaper').style.setProperty('--bg-img', `url(${bgImg})`);
+  document.querySelector('.bg-wallpaper').style.backgroundImage = `url(${bgImg})`;
+
+  // ---------- 0. TRACKING / GOOGLE SHEET SYNC ----------
+  // ใส่ URL ที่ได้จากการ Deploy Apps Script (code.gs) เป็น Web app ตรงนี้
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwsGDhRNqyjLMmW0AFBxggywVtezDnsyGFB3mLT-VufmE3XtQNNxNmsNnLmAw1Nwjak/exec';
+
+  function generateSessionId(){
+    return 'sess-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+  }
+  const sessionId = generateSessionId();
+
+  const tracking = {
+    wrongCount: 0,
+    wrongCodes: [],
+    answers: ['', '', ''],
+    flowersViewed: []
+  };
+
+  function sendData(){
+    if(!SCRIPT_URL || SCRIPT_URL.indexOf('YOUR_DEPLOYMENT_ID') !== -1) return; // ยังไม่ได้ใส่ URL จริง
+    const payload = {
+      sessionId: sessionId,
+      wrongCount: tracking.wrongCount,
+      wrongCodes: tracking.wrongCodes,
+      answer1: tracking.answers[0],
+      answer2: tracking.answers[1],
+      answer3: tracking.answers[2],
+      flowersViewed: tracking.flowersViewed
+    };
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors', // web app ของ Apps Script ไม่ต้องอ่าน response กลับมา แค่ยิงข้อมูลไปให้ถึง
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).catch(()=>{ /* เงียบไว้ ไม่ให้กระทบ UX ฝั่งผู้ใช้ */ });
+  }
+
+  // ---------- Background music ----------
+  const bgMusic = document.getElementById('bgMusic');
+  const musicWidget = document.getElementById('musicWidget');
+  const lyricFloat = document.getElementById('lyricFloat');
+  const muteBtn = document.getElementById('muteBtn');
+  const muteIconOn = document.getElementById('muteIconOn');
+  const muteIconOff = document.getElementById('muteIconOff');
+  let musicStarted = false;
+
+  // เรียกจากภายใน event listener ของการแตะซองจดหมาย (user gesture จริง)
+  // เพื่อให้เบราว์เซอร์อนุญาตเล่นเสียงได้ทันทีแบบไม่ถูกบล็อก
+  function playMusic(){
+    if(musicStarted) return;
+    musicStarted = true;
+    bgMusic.play().catch(()=>{ musicStarted = false; });
+    musicWidget.classList.add('show');
+    setTimeout(()=> lyricFloat.classList.add('show'), 500);
+  }
+
+  muteBtn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    if(!musicStarted){ playMusic(); return; }
+    bgMusic.muted = !bgMusic.muted;
+    muteIconOn.style.display = bgMusic.muted ? 'none' : 'block';
+    muteIconOff.style.display = bgMusic.muted ? 'block' : 'none';
+  });
+
+  // ---------- Falling sparkles ----------
+  const emojis = ['🌸','🫧','✨','💮','🌼','♥️','⭐'];
+  const layer = document.getElementById('fallingLayer');
+  for(let i=0;i<18;i++){
+    const el = document.createElement('div');
+    el.className='falling-item';
+    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left = Math.random()*100+'%';
+    el.style.fontSize = (14+Math.random()*14)+'px';
+    el.style.setProperty('--drift', (Math.random()*80-40)+'px');
+    const dur = 6+Math.random()*8;
+    el.style.animationDuration = dur+'s';
+    el.style.animationDelay = (-Math.random()*dur)+'s';
+    layer.appendChild(el);
+  }
+
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    const el = document.getElementById(id);
+    el.classList.add('active');
+    el.classList.remove('fade-in'); void el.offsetWidth; el.classList.add('fade-in');
+  }
+
+  // ---------- 1. ENVELOPE ----------
+  const envelopeWrap = document.getElementById('envelopeWrap');
+  const letterPaper = document.getElementById('letterPaper');
+  const envelopeHint = document.getElementById('envelopeHint');
+  let envelopeOpened = false;
+
+  envelopeWrap.addEventListener('click', ()=>{
+    if(!envelopeOpened){
+      envelopeOpened = true;
+      const envImg = document.getElementById('envelopeImg');
+      envImg.src = envImg.dataset.openedSrc;
+      envImg.style.transform = 'scale(1.05)';
+      letterPaper.classList.add('show');
+      envelopeHint.textContent = 'พี่ลองกดที่จดหมายอีกรอบ';
+      playMusic();
+    } else {
+      showScreen('passcodeScreen');
+      setTimeout(()=>document.querySelector('.code-box[data-i="0"]').focus(), 300);
+    }
+  });
+
+  // ---------- 2. PASSCODE ----------
+  const boxes = Array.from(document.querySelectorAll('.code-box'));
+  const catRunner = document.getElementById('catRunner');
+
+  boxes.forEach((box, idx)=>{
+    box.addEventListener('input', ()=>{
+      box.value = box.value.replace(/[^0-9]/g,'').slice(0,1);
+      if(box.value && idx < boxes.length-1){ boxes[idx+1].focus(); }
+      checkComplete();
+    });
+    box.addEventListener('keydown', (e)=>{
+      if(e.key==='Backspace' && !box.value && idx>0){ boxes[idx-1].focus(); }
+    });
+  });
+
+  function checkComplete(){
+    const code = boxes.map(b=>b.value).join('');
+    if(code.length === 6){
+      setTimeout(()=>evaluateCode(code), 150);
+    }
+  }
+
+  function clearStates(){
+    boxes.forEach(b=>{ b.classList.remove('correct','wrong'); });
+  }
+
+  function runCat(message){
+    catRunner.innerHTML = '';
+    const wrap = document.createElement('div');
+    wrap.className = 'cat-msg';
+    wrap.innerHTML = `<span class="emoji">🐱</span><span class="bubble">${message}</span>`;
+    catRunner.appendChild(wrap);
+    setTimeout(()=>{ wrap.remove(); }, 1850);
+  }
+
+  function evaluateCode(code){
+    if(code === '080569'){
+      boxes.forEach(b=>b.classList.add('correct'));
+      runCat('เย่! ถูกต้องแล้วว ');
+      sendData();
+      setTimeout(()=>{
+        showScreen('chatScreen');
+        startChat();
+      }, 1200);
+    } else if(code === '090152' || code === '110150'){
+      tracking.wrongCount++;
+      tracking.wrongCodes.push(code);
+      boxes.forEach(b=>b.classList.add('wrong'));
+      runCat('หึหึ ต้องเป็นวันของเราทั้งคู่สิ ');
+      sendData();
+      setTimeout(resetBoxes, 1700);
+    } else {
+      tracking.wrongCount++;
+      tracking.wrongCodes.push(code);
+      boxes.forEach(b=>b.classList.add('wrong'));
+      let msg;
+      if(tracking.wrongCount === 1) msg = 'ยังม่ายใช่นะ 🙀';
+      else if(tracking.wrongCount === 2) msg = 'ยังม่ายถูกเกี่ยวกับเราทั้งคู่มะ 😿';
+      else msg = 'พี่ปลื้มลืมกันแล้วแน่เลย 😢';
+      runCat(msg);
+      sendData();
+      setTimeout(resetBoxes, 1700);
+    }
+  }
+
+  function resetBoxes(){
+    clearStates();
+    boxes.forEach(b=>b.value='');
+    boxes[0].focus();
+  }
+
+  // ---------- 3. CHAT ----------
+  const chatBody = document.getElementById('chatBody');
+
+  function addPinkBar(text){
+    const row = document.createElement('div');
+    row.className = 'pink-bar';
+    row.textContent = text;
+    chatBody.appendChild(row);
+    scrollChat();
+  }
+  function addBubble(text, side='left'){
+    const row = document.createElement('div');
+    row.className = 'msg-row '+side;
+    const b = document.createElement('div');
+    b.className = 'bubble-msg';
+    b.textContent = text;
+    row.appendChild(b);
+    chatBody.appendChild(row);
+    scrollChat();
+  }
+  function scrollChat(){ chatBody.scrollTop = chatBody.scrollHeight; }
+
+  function addChoices(options, callback){
+    const wrap = document.createElement('div');
+    wrap.className = 'choice-list';
+    options.forEach(opt=>{
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.textContent = opt;
+      btn.onclick = ()=>{
+        wrap.remove();
+        addBubble(opt, 'right');
+        callback(opt);
+      };
+      wrap.appendChild(btn);
+    });
+    chatBody.appendChild(wrap);
+    scrollChat();
+  }
+
+  let chatStarted = false;
+  function startChat(){
+    if(chatStarted) return;
+    chatStarted = true;
+    setTimeout(()=>{ addPinkBar('พี่ปลื้มมม > <'); },300);
+    setTimeout(()=>{
+      addBubble('เรามีอะไรจะบอกพี่ด้วย!!');
+      addChoices(['มีอะไรหรอครับ?','ว่ามาเลยยย','ครับผมเรมี'], step2);
+    },1000);
+  }
+
+  function step2(){
+    setTimeout(()=>{
+      addBubble('คือ 1 วันมี 86,400 วินาทีใช่ไหม แต่เรมีคิดถึงพี่ไปแล้ว 86,401 วินาที เพราะอะไรรู้ไหมมม');
+      addChoices(['เพราะอะไรหรอ','ไม่รู้เลยยย','เค้าไม่รู้งะ'], step3);
+    }, 900);
+  }
+
+  function step3(){
+    setTimeout(()=>{
+      addBubble('เพราะเราคิดถึงเกินไง! เรามีคำถามอยากถามด้วยแหละ พี่สะดวกไหมนะ?');
+      addChoices(['สะดวกมาก ๆ เลย','ว่ายังไงบ้างหรอ','หือออ อะไรหรอครับ'], ()=>{
+        setTimeout(()=>{ showScreen('formScreen'); }, 700);
+      });
+    }, 900);
+  }
+
+  // ---------- 4. QUESTIONNAIRE ----------
+  const questions = [
+    'พี่ปลื้มชอบอะไรในตัวเรมี',
+    'อะไรคือสิ่งที่อยากทำร่วมกับเรมีในปีนี้',
+    'ถ้าเรมีอารมณ์ไม่ดี พี่ปลื้มรับมือกับเรายังไง'
+  ];
+  let qIndex = 0;
+  const formProgress = document.getElementById('formProgress');
+  const formQuestion = document.getElementById('formQuestion');
+  const formAnswer = document.getElementById('formAnswer');
+  const formSubmitBtn = document.getElementById('formSubmitBtn');
+
+  function renderQuestion(){
+    formProgress.textContent = (qIndex+1)+'/3';
+    formQuestion.textContent = questions[qIndex];
+    formAnswer.value = '';
+  }
+  renderQuestion();
+
+  formSubmitBtn.addEventListener('click', ()=>{
+    tracking.answers[qIndex] = formAnswer.value.trim();
+    qIndex++;
+    sendData();
+    if(qIndex < questions.length){
+      renderQuestion();
+    } else {
+      showScreen('thankyouScreen');
+    }
+  });
+
+  document.getElementById('toBouquetBtn').addEventListener('click', ()=>{
+    showScreen('bouquetScreen');
+  });
+
+  // ---------- 6. BOUQUET ----------
+  const flowerData = [
+    {x:29, y:16, emoji:'🌷', name:'ดอกลิลลี่สีชมพู (Pink Lily)', desc:'แทนความสุขของเรมีในทุกๆ วัน ดอกลิลลี่สีชมพูให้พี่ปลื้ม แทนคำพูดว่าการมีพี่อยู่ในชีวิตทำให้โลกสดใสและมีความสุขตลอดไป!! ดอกลิลลี่คือความบริสุทธิ์ สีชมพูสื่อถึงความรู้สึกรักที่ออกมาจากหัวใจเรา และก็เต็มไปด้วยความเคารพต่อกัน^^'},
+    {x:44, y:16, emoji:'🤍', name:'ดอกกุหลาบสีขาว (White Rose)', desc:'รักพี่ปลื้มเพราะเป็นตัวพี่เอง สีขาวเปรียบเหมือนความใสสะอาด สื่อถึงความรักที่ตั้งอยู่บนความจริงใจ เป็นตัวแทนของพันธสัญญาและความรักที่รักจริงหวังแต่ง (ล้อเล่น) สื่อถึงความพร้อมที่จะดูแลและเคารพความสัมพันธ์นี้ไปนาน ๆ'},
+    {x:65, y:46, emoji:'🕊️', name:'ดอกลิลลี่สีขาว (White Lily)', desc:'ลิลลี่สีขาวเปรียบเหมือนการบอกว่า พี่ปลื้มคือคนที่พิเศษและมีความหมายมากที่สุดในสายตาเรมี และเป็นความจริงใจที่พร้อมจะอยู่เคียงข้างกันและซื่อสัตย์ต่อกัน ยอมรับและพร้อมจะเติบโตไปด้วยกันในทุกวัน'},
+    {x:44, y:36, emoji:'🌼', name:'เยอร์บีร่าสีเหลือง (Yellow Gerbera Daisy)', desc:'ดอกเยอร์บีร่าเป็นดอกไม้แห่งความเบิกบาน สีเหลืองสื่อถึงความร่าเริง เปรียบเหมือนพี่ปลื้มที่เป็นคนที่ทำให้เรามีความสุข และทำให้เรายิ้มได้ คอยปลอบโยน และทำให้โลกของเรมีดูสดใสขึ้นในทุกๆ วัน เปรียบเป็นทั้งคนรักและพี่ชาย (55555) ที่สบายใจที่สุด และพร้อมสนับสนุนกันเสมอ'},
+    {x:19, y:39, emoji:'🌹', name:'ดอกกุหลาบสีชมพูอ่อน (Light Pink Rose)', desc:'สีชมพูอ่อนสื่อถึงความชื่นชม เปรียบเหมือนการบอกว่า "พี่ปลื้มน่ารักและน่าเอ็นดูในสายตาเรมีเสมอ" (หมีเนย) เป็นตัวแทนของความรู้สึกดีผ่อนคลาย อบอุ่นใจ เหมือนเป็นพื้นที่ปลอดภัยที่อยู่ด้วยแล้วสบายใจ'},
+    {x:19, y:59, emoji:'💜', name:'ทิวลิปสีม่วง (Purple Tulip)', desc:'ทิวลิปสีม่วงสื่อถึงความรักที่ยกย่อง เทิดทูน และการให้เกียรติกัน เปรียบพี่เป็นคนสำคัญและมีคุณค่ามากในชีวิต เปรียบพี่เหมือนคนที่มีเอกลักษณ์ มีเสน่ห์ ทำให้เราตกหลุมรัก พร้อมเป็นตัวแทนทั้งด้านอารมณ์และความรู้สึก'},
+    {x:38, y:56, emoji:'🌸', name:'เยอร์บีร่าสีชมพูพีช (Peach Pink Gerbera Daisy)', desc:'สีส้มและความอ่อนหวานของสีชมพู เปรียบเหมือนพี่ปลื้มที่เป็นความอบอุ่น อยู่ด้วยแล้วรู้สึกเป็นตัวเองได้มาก ๆ ขอบคุณพี่ปลื้มที่คอยถามรายละเอียดเรานะ ถึงจะงอนบ่อยก็เถอะ ทำให้วันแย่ ๆ ของเรากลายเป็นวันที่ดี ขอบคุณแฟนที่คอยดูแล เอาใจใส่ และเคียงข้างกันตลอดนะ'},
+    {x:26, y:73, emoji:'🌺', name:'ดอกกุหลาบสีชมพู (Pink Rose)', desc:'สีชมพูเปรียบเหมือนว่า ขอบคุณสำหรับความรัก การดูแล และความทรงจำดี ๆ ที่มีให้กันเสมอ ขอบคุณพี่ปลื้มที่อยู่ด้วยกันจนถึงทุกวันนี้นะ และจะอยู่ไปนาน ๆ ตลอดเลยยยยยย'}
+  ];
+
+  const bouquetFrame = document.getElementById('bouquetFrame');
+  flowerData.forEach((f)=>{
+    const hs = document.createElement('div');
+    hs.className = 'hotspot';
+    hs.style.left = f.x+'%';
+    hs.style.top = f.y+'%';
+    hs.addEventListener('click', ()=>openFlowerModal(f));
+    bouquetFrame.appendChild(hs);
+  });
+
+  const modalOverlay = document.getElementById('flowerModalOverlay');
+  function openFlowerModal(f){
+    document.getElementById('modalEmoji').textContent = f.emoji;
+    document.getElementById('modalTitle').textContent = f.name;
+    document.getElementById('modalDesc').textContent = f.desc;
+    modalOverlay.classList.add('show');
+    if(tracking.flowersViewed.indexOf(f.name) === -1){
+      tracking.flowersViewed.push(f.name);
+      sendData();
+    }
+  }
+  document.getElementById('modalExitBtn').addEventListener('click', ()=>{
+    modalOverlay.classList.remove('show');
+  });
+  modalOverlay.addEventListener('click', (e)=>{
+    if(e.target === modalOverlay) modalOverlay.classList.remove('show');
+  });
+
+  // เก็บข้อมูลรอบสุดท้ายตอนผู้ใช้ปิดหน้า/สลับแท็บ เผื่อ fetch ปกติยิงไม่ทัน
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.visibilityState === 'hidden') sendDataBeacon();
+  });
+  window.addEventListener('pagehide', sendDataBeacon);
+
+  function sendDataBeacon(){
+    if(!SCRIPT_URL || SCRIPT_URL.indexOf('YOUR_DEPLOYMENT_ID') !== -1) return;
+    if(!navigator.sendBeacon) return;
+    const payload = {
+      sessionId: sessionId,
+      wrongCount: tracking.wrongCount,
+      wrongCodes: tracking.wrongCodes,
+      answer1: tracking.answers[0],
+      answer2: tracking.answers[1],
+      answer3: tracking.answers[2],
+      flowersViewed: tracking.flowersViewed
+    };
+    const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain;charset=utf-8' });
+    navigator.sendBeacon(SCRIPT_URL, blob);
+  }
+
+})();
+</script>
+</body>
+</html>  #app{
+    position:relative;
+    width:100%; height:100vh; height:100dvh;
+    max-width:520px; margin:0 auto;
+    overflow:hidden;
+    background: var(--cream);
+  }
+  .bg-wallpaper{
+    position:absolute; inset:0; z-index:0;
+    background-image: var(--bg-img);
+    background-size: 260px;
+    background-repeat: repeat;
+    opacity:0.5;
+    mix-blend-mode: multiply;
+  }
+
+  /* ---------- Falling sparkle effect ---------- */
+  .falling-layer{ position:absolute; inset:0; pointer-events:none; z-index:5; overflow:hidden;}
+  .falling-item{
+    position:absolute; top:-40px; font-size:20px; opacity:0.85;
+    animation: fall linear infinite;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+  }
+  @keyframes fall{
+    0%{ transform: translateY(-10vh) translateX(0) rotate(0deg); }
+    100%{ transform: translateY(110vh) translateX(var(--drift,20px)) rotate(360deg); }
+  }
+
+  /* ---------- Screen management ---------- */
+  .screen{
+    position:absolute; inset:0; z-index:2;
+    display:none;
+    flex-direction:column;
+    align-items:center; justify-content:center;
+    padding: 24px;
+    text-align:center;
+  }
+  .screen.active{ display:flex; }
+  .fade-in{ animation: fadeIn 0.6s ease both; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:translateY(0);} }
+
+  h1,h2,h3{ margin:0; font-weight:600; }
+
+  /* ---------- Envelope Screen ---------- */
+  #envelopeScreen .envelope-wrap{
+    position:relative; width:260px; height:260px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  #envelopeScreen img.envelope-img{
+    width:230px; filter: drop-shadow(0 14px 24px rgba(190,140,180,0.35));
+    transition: transform 0.5s ease;
+    animation: bob 2.6s ease-in-out infinite;
+  }
+  @keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+  #envelopeScreen .hint-text{
+    margin-top: 28px; color: var(--ink-soft); font-size:15px; letter-spacing:0.5px;
+  }
+  .letter-paper{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    padding: 0 34px;
+    text-align:center;
+    background: transparent;
+    opacity:0;
+    pointer-events:none;
+    font-size:15px; line-height:1.6; color:var(--ink);
+    font-weight:600;
+  }
+  .letter-paper.show{
+    opacity:1; pointer-events:auto;
+    animation: fadeScaleIn 0.6s cubic-bezier(.2,1.4,.4,1) forwards;
+  }
+  @keyframes fadeScaleIn{
+    0%{ transform: scale(0.7); opacity:0; }
+    100%{ transform: scale(1); opacity:1; }
+  }
+  .envelope-open .flap{ transform: rotateX(180deg); }
+
   /* ---------- Passcode Screen ---------- */
   .card{
     width:100%; max-width:380px;
