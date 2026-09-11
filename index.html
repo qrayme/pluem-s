@@ -93,23 +93,23 @@
     margin-top: 28px; color: var(--ink-soft); font-size:15px; letter-spacing:0.5px;
   }
   .letter-paper{
-    position:absolute; width:220px; padding:26px 18px;
-    background: var(--cream);
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    opacity:0; transform: translateY(0) scale(0.6);
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    padding: 0 34px;
+    text-align:center;
+    background: transparent;
+    opacity:0;
     pointer-events:none;
-    font-size:17px; line-height:1.7; color:var(--ink);
-    border: 2px dashed var(--pink-deep);
+    font-size:15px; line-height:1.6; color:var(--ink);
+    font-weight:600;
   }
   .letter-paper.show{
     opacity:1; pointer-events:auto;
-    animation: popOut 0.7s cubic-bezier(.2,1.4,.4,1) forwards;
+    animation: fadeScaleIn 0.6s cubic-bezier(.2,1.4,.4,1) forwards;
   }
-  @keyframes popOut{
-    0%{ transform: translateY(20px) scale(0.5); opacity:0; }
-    60%{ transform: translateY(-70px) scale(1.05); opacity:1; }
-    100%{ transform: translateY(-90px) scale(1); opacity:1; }
+  @keyframes fadeScaleIn{
+    0%{ transform: scale(0.7); opacity:0; }
+    100%{ transform: scale(1); opacity:1; }
   }
   .envelope-open .flap{ transform: rotateX(180deg); }
 
@@ -289,7 +289,7 @@
   <!-- 1. ENVELOPE SCREEN -->
   <section class="screen active" id="envelopeScreen">
     <div class="envelope-wrap" id="envelopeWrap">
-      <img src="https://i.ibb.co/99dcxPfH/bck.png" class="envelope-img" id="envelopeImg" alt="ซองจดหมาย">
+      <img src="https://i.ibb.co/99dcxPfH/bck.png" data-closed-src="https://i.ibb.co/99dcxPfH/bck.png" data-opened-src="https://i.ibb.co/FkKMcLFZ/image.jpg" class="envelope-img" id="envelopeImg" alt="ซองจดหมาย">
       <div class="letter-paper" id="letterPaper">เรามีอะไรจะบอกอิอิ</div>
     </div>
     <div class="hint-text" id="envelopeHint">แตะที่ซองจดหมายเรยย</div>
@@ -440,7 +440,9 @@
   envelopeWrap.addEventListener('click', ()=>{
     if(!envelopeOpened){
       envelopeOpened = true;
-      document.getElementById('envelopeImg').style.transform = 'scale(0.94) rotate(-3deg)';
+      const envImg = document.getElementById('envelopeImg');
+      envImg.src = envImg.dataset.openedSrc;
+      envImg.style.transform = 'scale(1.05)';
       letterPaper.classList.add('show');
       envelopeHint.textContent = 'แตะที่จดหมายเพื่ออ่านต่อ 💌';
     } else {
